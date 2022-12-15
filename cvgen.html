@@ -83,7 +83,7 @@
     var work_experience = document.getElementById('work_experience').value;
 
     // Generate the CV
-    var cv = '
+var cv = '
   <div id="cv" class="cv">
     <h2>CV</h2>
     <p>
@@ -109,5 +109,10 @@
   </div>
 ';
 
-// Insert the CV into the page
-document.getElementById('cv').innerHTML = cv;
+// Create a link element for the download
+var downloadLink = document.createElement('a');
+downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(cv));
+downloadLink.setAttribute('download', 'cv.txt');
+
+// Trigger the download
+downloadLink.click();
