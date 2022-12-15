@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat System</title>
+    <style>
+      #chat-form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#chat-form label {
+  flex: 0 0 100px;
+  margin-right: 10px;
+  text-align: right;
+}
+
+#chat-form input[type="text"] {
+  flex: 1;
+  padding: 5px;
+}
+
+#chat-log {
+  max-height: 400px;
+  overflow-y: scroll;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+#chat-log p {
+  margin: 0 0 10px 0;
+}
+
+    </style>
+  </head>
+  <body>
+    <form id="chat-form">
+      <label for="message">Enter your message:</label>
+      <input type="text" id="message" name="message">
+      <input type="hidden" id="user-id" name="user-id" value="">
+      <button type="submit">Send</button>
+    </form>
+
+    <div id="chat-log">
+      <!-- chat messages will be added here -->
+    </div>
+
+    <script>
+      // generate a random user ID
+var userId = Math.random().toString(36).substr(2, 9);
+
+// set the user ID in the hidden form field
+document.getElementById('user-id').value = userId;
+
+// listen for when the user submits the form
+document.getElementById('chat-form').addEventListener('submit', function(e) {
+  // prevent the form from actually submitting
+  e.preventDefault();
+
+  // get the user's message and ID from the form
+  var message = document.getElementById('message').value;
+  var userId = document.getElementById('user-id').value;
+
+  // create a new element to hold the message
+  var messageElement = document.createElement('p');
+
+  // add the user's ID and message to the element
+  messageElement.innerHTML = '<strong>User ' + userId + ':</strong> ' + message;
+
+  // add the message element to the chat log
+  document.getElementById('chat-log').appendChild(messageElement);
+
+  // clear the user's message from the form
+  document.getElementById('message').value = '';
+});
+
+    </script>
+  </body>
+</html>
