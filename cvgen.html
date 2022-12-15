@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CV Generator</title>
+<style>
+  body {
+    font-family: sans-serif;
+  }
+  form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+  }
+  input[type="submit"] {
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  input[type="submit"]:hover {
+    background-color: #444444;
+  }
+  .cv {
+    margin: 20px 0;
+  }
+  .cv h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .cv p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  .cv p.heading {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+<body>
+
+<h1>CV Generator</h1>
+
+<form>
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="email">Email:</label><br>
+  <input type="text" id="email" name="email"><br>
+  <label for="phone">Phone:</label><br>
+  <input type="text" id="phone" name="phone"><br>
+  <label for="education">Education:</label><br>
+  <textarea id="education" name="education"></textarea><br>
+  <label for="work_experience">Work Experience:</label><br>
+  <textarea id="work_experience" name="work_experience"></textarea><br>
+  <input type="submit" value="Submit" onclick="generateCV()">
+</form> 
+
+<div id="cv" class="cv"></div>
+
+<script>
+  function generateCV() {
+    // Get the user's input from the form
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var phone = document.getElementById('phone').value;
+    var education = document.getElementById('education').value;
+    var work_experience = document.getElementById('work_experience').value;
+
+    // Generate the CV
+    var cv = '
+  <div id="cv" class="cv">
+    <h2>CV</h2>
+    <p>
+      <span class="heading">Name:</span>
+      ' + name + '
+    </p>
+    <p>
+      <span class="heading">Email:</span>
+      ' + email + '
+    </p>
+    <p>
+      <span class="heading">Phone:</span>
+      ' + phone + '
+    </p>
+    <p>
+      <span class="heading">Education:</span><br>
+      ' + education + '
+    </p>
+    <p>
+      <span class="heading">Work Experience:</span><br>
+      ' + work_experience + '
+    </p>
+  </div>
+';
+
+// Insert the CV into the page
+document.getElementById('cv').innerHTML = cv;
