@@ -109,10 +109,27 @@ var cv = '
   </div>
 ';
 
+// Insert the CV into the page
+document.getElementById('cv').innerHTML = cv;
+
 // Create a link element for the download
 var downloadLink = document.createElement('a');
 downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(cv));
 downloadLink.setAttribute('download', 'cv.txt');
 
-// Trigger the download
-downloadLink.click();
+// Create the preview and download buttons
+var previewButton = document.createElement('button');
+previewButton.innerHTML = 'Preview CV';
+previewButton.addEventListener('click', function() {
+  document.getElementById('cv').innerHTML = cv;
+});
+
+var downloadButton = document.createElement('button');
+downloadButton.innerHTML = 'Download CV';
+downloadButton.addEventListener('click', function() {
+  downloadLink.click();
+});
+
+// Insert the buttons into the page
+document.body.appendChild(previewButton);
+document.body.appendChild(downloadButton);
