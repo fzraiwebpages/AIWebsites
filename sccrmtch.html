@@ -2,162 +2,60 @@
 <html>
 <head>
     <title>Soccer Match Predictor</title>
-    <style>
-        .rating {
-            display: inline-block;
-            position: relative;
-            height: 50px;
-            line-height: 50px;
-            font-size: 50px;
-        }
-
-        .rating label {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .rating label:last-child {
-            position: static;
-        }
-
-        .rating label:nth-child(1) {
-            z-index: 5;
-        }
-
-        .rating label:nth-child(2) {
-            z-index: 4;
-        }
-
-        .rating label:nth-child(3) {
-            z-index: 3;
-        }
-
-        .rating label:nth-child(4) {
-            z-index: 2;
-        }
-
-        .rating label:nth-child(5) {
-            z-index: 1;
-        }
-
-        .rating label input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-        }
-
-        .rating label .icon {
-            float: left;
-            color: transparent;
-        }
-
-        .rating label:last-child .icon {
-            color: #000;
-        }
-
-        .rating:not(:hover) label input:checked ~ .icon,
-        .rating:hover label:hover input ~ .icon {
-            color: #09f;
-        }
-
-        .rating label input:focus:not(:checked) ~ .icon:last-child {
-            color: #000;
-            text-shadow: 0 0 5px #09f;
-        }
-    </style>
 </head>
 <body>
     <h1>Soccer Match Predictor</h1>
 
-    <form action="predictor.php" method="get">
+    <form onsubmit="return predict()">
         <label for="team1">Team 1:</label>
         <input type="text" id="team1" name="team1"><br>
-        <div class="rating">
-            <label>
-                <input type="radio" name="rating1" value="1" />
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating1" value="2" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating1" value="3" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating1" value="4" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating1" value="5" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-        </div><br>
+        <label for="strength1">Team 1 Strength (1-5):</label>
+        <input type="number" id="strength1" name="strength1" min="1" max="5"><br>
         <label for="team2">Team 2:</label>
         <input type="text" id="team2" name="team2"><br>
-        <div class="rating">
-            <label>
-                <input type="radio" name="rating2" value="1" />
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating2" value="2" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating2" value="3" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating2" value="4" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-            <label>
-                <input type="radio" name="rating2" value="5" />
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-                <span class="icon">★</span>
-            </label>
-        </div><br>
-        <input type="submit" value="Predict">
+        <label for="strength2">Team 2 Strength (1-5):</label>
+        <input type="number" id="strength2" name="strength2" min="1" max="5"><br>
+       
+<input type="submit" value="Predict">
     </form>
 
-    <?php
-    if (isset($_GET['team1']) && isset($_GET['rating1']) && isset($_GET['team2']) && isset($_GET['rating2'])) {
-        $team1 = $_GET['team1'];
-        $rating1 = intval($_GET['rating1']);
-        $team2 = $_GET['team2'];
-        $rating2 = intval($_GET['rating2']);
+    <div id="results" style="display: none;">
+        <h2 id="team1name"></h2>
+        <p id="team1strength"></p>
+        <p id="team1goals"></p>
 
-        echo "<h2>$team1</h2>";
-        echo "<p>Strength: " . str_repeat('★', $rating1) . str_repeat('☆', 5 - $rating1) . "</p>";
-        echo "<p>Goals: " . rand(0, 5) . "</p>";
+        <h2 id="team2name"></h2>
+        <p id="team2strength"></p>
+        <p id="team2goals"></p>
 
-        echo "<h2>$team2</h2>";
-        echo "<p>Strength: " . str_repeat('★', $rating2) . str_repeat('☆', 5 - $rating2) . "</p>";
-        echo "<p>Goals: " . rand(0, 5) . "</p>";
+        <h2>Final Score</h2>
+        <p id="finalscore1"></p>
+        <p id="finalscore2"></p>
+    </div>
 
-        echo "<h2>Final Score</>"
-<p>$team1: " . rand(0, 5) . "</p>
-<p>$team2: " . rand(0, 5) . "</p>
+    <script>
+        function predict() {
+            var team1 = document.getElementById('team1').value;
+            var strength1 = document.getElementById('strength1').value;
+            var team2 = document.getElementById('team2').value;
+            var strength2 = document.getElementById('strength2').value;
+
+            document.getElementById('team1name').innerHTML = team1;
+            document.getElementById('team1strength').innerHTML = 'Strength: ' + strength1;
+            document.getElementById('team1goals').innerHTML = 'Goals: ' + Math.floor(Math.random() * 5);
+
+            document.getElementById('team2name').innerHTML = team2;
+            document.getElementById('team2strength').innerHTML = 'Strength: ' + strength2;
+            document.getElementById('team2goals').innerHTML = 'Goals: ' + Math.floor(Math.random() * 5);
+
+            document.getElementById('finalscore1').innerHTML = team1 + ': ' + Math.floor(Math.random() * 5);
+            document.getElementById('finalscore2').innerHTML = team2 + ': ' + Math.floor(Math.random() * 5);
+
+            document.getElementById('results').style.display = 'block';
+
+            return false;
+        }
+    </script>
+</body>
+</html>
+
