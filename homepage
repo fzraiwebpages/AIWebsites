@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat System</title>
+  <style>
+    /* Add some styling to make the chat system look nicer */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #chat-system {
+      width: 500px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    #chat-system-messages {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    #chat-system-messages li {
+      padding: 5px 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    #chat-system-messages li:last-child {
+      border-bottom: none;
+    }
+    #chat-system-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    #chat-system-input:focus {
+      /* Add a nice blue outline when the input is focused */
+      border: 2px solid #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-system">
+    <button id="chat-system-login-button">Login</button>
+    <ul id="chat-system-messages"></ul>
+    <input type="text" id="chat-system-input" placeholder="Type your message here..." />
+    <button id="chat-system-send-button">Send</button>
+  </div>
+  <script>
+    // Include the JavaScript code for the chat system here...
+    // Initialize some variables for the chat system
+var username;
+var messages = [];
+
+// Function to handle the login process
+function login() {
+  // Ask the user for their username
+  username = prompt("Enter your username:");
+
+  // Make sure the user entered a username
+  if (!username) {
+    // If the user didn't enter a username, try again
+    login();
+  }
+}
+
+// Function to handle sending messages
+function sendMessage() {
+  // Get the message from the input field
+  var message = document.getElementById("chat-system-input").value;
+
+  // Make sure the user entered a message
+  if (!message) return;
+
+  // Clear the input field
+  document.getElementById("chat-system-input").value = "";
+
+  // Add the message to the list of messages
+  messages.push({
+    username: username,
+    message: message
+  });
+
+  // Display the messages on the page
+  displayMessages();
+}
+
+// Function to handle displaying messages on the page
+function displayMessages() {
+  // Get the messages container element
+  var messagesContainer = document.getElementById("chat-system-messages");
+
+  // Clear the messages container
+  messagesContainer.innerHTML = "";
+
+  // Loop through the messages array
+  for (var i = 0; i < messages.length; i++) {
+    // Create a new list item for the message
+    var li = document.createElement("li");
+
+    // Set the message text
+    li.innerText = messages[i].username + ": " + messages[i].message;
+
+    // Add the message to the messages container
+    messagesContainer.appendChild(li);
+  }
+}
+
+// Function to handle receiving messages from other users
+function receiveMessage(message) {
+  // Add the received message to the messages array
+  messages.push(message);
+
+  // Display the messages on the page
+  displayMessages();
+}
+
+// Add an event listener for the login button
+document.getElementById("chat-system-login-button").addEventListener("click", login);
+
+// Add an event listener for the send button
+document.getElementById("chat-system-send-button").addEventListener("click", sendMessage);
+
+  </script>
+</body>
+</html>
